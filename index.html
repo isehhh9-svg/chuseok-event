@@ -12515,3 +12515,365 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
   sync();
 })();
 </script>
+
+<!-- v28.176: Supabase live DB integration -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="v28176-supabase-live-db">
+(function(){
+  const SUPABASE_URL = 'https://uceoxngqsxjqxxkvotcy.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_nUFjJRcGsyczSygX-Uaxvg_8wPr-pMn';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}
+  });
+  window.chuseokSupabase = sb;
+
+  const LAST_NICK_KEY = 'chuseok-participant-nickname';
+  const BUCKET = 'verification-screenshots';
+  let adminLoadBusy = false;
+
+  const DBMSG = {
+    kr:{submitting:'인증 이미지를 서버에 제출하는 중...',ocrSubmitting:'자동 인식 실패 — 관리자 확인 대기로 제출하는 중...',pending:'인증이 접수되었습니다! 관리자 승인 후 보따리가 지급됩니다.', pendingOcr:'자동 인식에 실패했지만 인증 이미지는 관리자 확인 대기로 접수되었습니다.', used:'⚠️ 이미 제출된 스크린샷입니다.', already:'⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.', pendingAlready:'⚠️ 이 닉네임은 해당 NPC 인증이 이미 승인 대기 중입니다.', dbFail:'서버 연결 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', noNick:'먼저 인증창에서 닉네임을 입력해주세요.', noBag:'투입할 보따리가 없습니다.', contributed:'잔칫상 복구도에 반영되었습니다!', complete:'잔칫상이 이미 모두 복구되었습니다.'},
+    th:{submitting:'กำลังส่งภาพยืนยันไปยังเซิร์ฟเวอร์...',ocrSubmitting:'ตรวจจับอัตโนมัติไม่สำเร็จ — กำลังส่งให้ผู้ดูแลตรวจสอบ...',pending:'ส่งการยืนยันเรียบร้อยแล้ว! ถุงรางวัลจะถูกมอบหลังผู้ดูแลอนุมัติ', pendingOcr:'แม้ระบบอ่านอัตโนมัติไม่สำเร็จ แต่ได้ส่งภาพให้ผู้ดูแลตรวจสอบแล้ว', used:'⚠️ ภาพหน้าจอนี้ถูกส่งไปแล้ว', already:'⚠️ ชื่อนี้ได้รับรางวัลจาก NPC ตัวนี้แล้ว', pendingAlready:'⚠️ การยืนยัน NPC นี้ของชื่อนี้กำลังรออนุมัติอยู่', dbFail:'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้ง', noNick:'กรุณากรอกชื่อในเกมในหน้าต่างยืนยันก่อน', noBag:'ไม่มีถุงให้ใส่', contributed:'เพิ่มคะแนนกู้คืนโต๊ะเลี้ยงแล้ว!', complete:'โต๊ะเลี้ยงถูกกู้คืนครบแล้ว'},
+    cn:{submitting:'正在向服务器提交认证图片……',ocrSubmitting:'自动识别失败——正在提交等待管理员确认……',pending:'验证已提交！管理员批准后将发放包袱。', pendingOcr:'自动识别失败，但认证图片已提交等待管理员确认。', used:'⚠️ 这张截图已经提交过了。', already:'⚠️ 这个昵称已经领取过该 NPC 的奖励。', pendingAlready:'⚠️ 该昵称的这个 NPC 验证正在等待管理员批准。', dbFail:'连接服务器时发生错误，请稍后重试。', noNick:'请先在验证窗口输入游戏昵称。', noBag:'没有可投入的包袱。', contributed:'已计入宴席恢复进度！', complete:'宴席已经全部恢复完成。'},
+    tw:{submitting:'正在將認證圖片送至伺服器……',ocrSubmitting:'自動辨識失敗——正在送出等待管理員確認……',pending:'驗證已送出！管理員核准後會發放包袱。', pendingOcr:'自動辨識失敗，但認證圖片已送出等待管理員確認。', used:'⚠️ 這張截圖已經提交過了。', already:'⚠️ 這個暱稱已經領取過該 NPC 的獎勵。', pendingAlready:'⚠️ 這個暱稱的該 NPC 驗證正在等待管理員核准。', dbFail:'連線伺服器時發生錯誤，請稍後再試。', noNick:'請先在驗證視窗輸入遊戲暱稱。', noBag:'沒有可以投入的包袱。', contributed:'已計入宴席恢復進度！', complete:'宴席已經全部恢復完成。'},
+    hk:{submitting:'正在將認證圖片交上伺服器……',ocrSubmitting:'自動辨識失敗——而家交畀管理員確認……',pending:'認證已經交咗！管理員批核之後會派返包袱。', pendingOcr:'自動辨識失敗，不過認證圖片已經交咗畀管理員人手確認。', used:'⚠️ 呢張截圖已經提交過喇。', already:'⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。', pendingAlready:'⚠️ 呢個暱稱嘅呢個 NPC 認證而家等緊管理員批核。', dbFail:'連接伺服器嗰陣出錯，請遲啲再試。', noNick:'請先喺認證視窗輸入遊戲暱稱。', noBag:'冇包袱可以投入。', contributed:'已經計入宴席復原進度！', complete:'宴席已經完全復原喇。'}
+  };
+
+  function currentLang(){
+    return (document.body && document.body.dataset.lang) || localStorage.getItem('chuseok-lang') || 'kr';
+  }
+  function msg(k){ const d=DBMSG[currentLang()]||DBMSG.kr; return d[k]||DBMSG.kr[k]||k; }
+  function getNick(){
+    const input=document.getElementById('nickname');
+    return ((input && input.value.trim()) || localStorage.getItem(LAST_NICK_KEY) || '').trim();
+  }
+  function rememberNick(nick){
+    if(!nick) return;
+    localStorage.setItem(LAST_NICK_KEY,nick.trim());
+    const input=document.getElementById('nickname');
+    if(input && !input.value) input.value=nick.trim();
+  }
+  function escapeHtml(v){
+    return String(v??'').replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':'&quot;',"'":'&#039;'}[s]));
+  }
+  function fmtDate(v){
+    if(!v) return '';
+    try{return new Date(v).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(_){return v;}
+  }
+  function extFor(file){
+    const m=(file.type||'').toLowerCase();
+    if(m.includes('png')) return 'png';
+    if(m.includes('webp')) return 'webp';
+    if(m.includes('gif')) return 'gif';
+    return 'jpg';
+  }
+
+  async function syncPublicState(){
+    try{
+      const {data:eventData,error:eventErr}=await sb.from('event_state').select('recovery_points').eq('id',1).single();
+      if(!eventErr && eventData && typeof state!=='undefined') state.progress=Number(eventData.recovery_points||0);
+
+      const nick=localStorage.getItem(LAST_NICK_KEY)||'';
+      if(typeof state!=='undefined'){
+        state.bags=state.bags||{rice:0,fruit:0,food:0};
+        if(nick){
+          const {data:r,error:e}=await sb.rpc('get_participant_rewards',{p_nickname:nick});
+          if(!e && Array.isArray(r) && r[0]){
+            state.bags.rice=Number(r[0].rice||0);
+            state.bags.fruit=Number(r[0].fruit||0);
+            state.bags.food=Number(r[0].food||0);
+          }else if(!e){
+            state.bags={rice:0,fruit:0,food:0};
+          }
+        }else{
+          state.bags={rice:0,fruit:0,food:0};
+        }
+        if(typeof render==='function') render();
+      }
+    }catch(err){ console.warn('public DB sync failed',err); }
+  }
+  window.syncChuseokDb = syncPublicState;
+
+  const nickInput=document.getElementById('nickname');
+  if(nickInput){
+    const saved=localStorage.getItem(LAST_NICK_KEY);
+    if(saved && !nickInput.value) nickInput.value=saved;
+    nickInput.addEventListener('change',function(){
+      const n=this.value.trim();
+      if(n){rememberNick(n);syncPublicState();}
+    });
+  }
+
+  async function uploadAndSubmit(nick,timeText,hash){
+    if(!currentFile || !currentRoute) throw new Error('Missing verification context');
+    rememberNick(nick);
+    const path='proofs/'+Date.now()+'_'+crypto.randomUUID()+'_'+hash.slice(0,12)+'.'+extFor(currentFile);
+    const up=await sb.storage.from(BUCKET).upload(path,currentFile,{cacheControl:'3600',upsert:false,contentType:currentFile.type||undefined});
+    if(up.error) throw up.error;
+
+    const {data,error}=await sb.rpc('submit_verification_v2',{
+      p_nickname:nick,
+      p_route:currentRoute,
+      p_screenshot_url:path,
+      p_record_time:timeText||null,
+      p_screenshot_hash:hash,
+      p_language:currentLang()
+    });
+    if(error) throw error;
+    return data;
+  }
+
+  function setStatusText(t){const el=document.getElementById('ocrStatus');if(el)el.textContent=t;}
+  function setStatusHtml(t){const el=document.getElementById('ocrStatus');if(el)el.innerHTML=t;}
+  function classifyDbError(err){
+    const raw=((err&&err.message)||'')+' '+((err&&err.details)||'');
+    if(/screenshot|duplicate key|submissions_unique_screenshot_hash/i.test(raw)) return 'used';
+    if(/Reward already approved|submissions_one_approved_per_route/i.test(raw)) return 'already';
+    if(/Submission already pending/i.test(raw)) return 'pendingAlready';
+    return 'dbFail';
+  }
+
+  // 기존 CLEAR 즉시 지급 로직 대신 DB 승인 대기로 제출
+  if(typeof judge==='function'){
+    judge = async function(timeText){
+      const nick=(document.getElementById('nickname')?.value||'').trim();
+      const r=ROUTES[currentRoute];
+      if(!nick){setStatusText((typeof currentLang==='function'&&currentLang()!=='kr')?msg('noNick'):'닉네임을 입력해주세요.');return;}
+      if(!currentFile){setStatusText('스크린샷을 먼저 올려주세요.');return;}
+      const user=score(timeText), target=score(r.target);
+      if(user===null){setStatusText('⚠️ 기록 형식을 읽지 못했어요.');return;}
+      if(user>=target){setStatusHtml(`❌ <b>${escapeHtml(timeText)}</b> — 기준 기록을 이기지 못했어요.`);return;}
+
+      const btn=document.getElementById('ocrButton');
+      if(btn) btn.disabled=true;
+      try{
+        setStatusText(msg('submitting'));
+        const h=await hashFile(currentFile);
+        await uploadAndSubmit(nick,timeText,h);
+        setStatusHtml('✅ '+escapeHtml(msg('pending')));
+        if(typeof say==='function') say('✅ '+msg('pending'));
+        await syncPublicState();
+      }catch(err){
+        console.error(err);
+        setStatusText(msg(classifyDbError(err)));
+      }finally{
+        if(btn) btn.disabled=false;
+      }
+    };
+  }
+
+  // OCR 실패도 실제 관리자 확인 대기로 전송
+  const ocrBtn=document.getElementById('ocrButton');
+  if(ocrBtn){
+    ocrBtn.onclick=async function(){
+      const nick=(document.getElementById('nickname')?.value||'').trim();
+      if(!nick){setStatusText('닉네임을 입력해주세요.');return;}
+      if(!currentFile){setStatusText('스크린샷을 먼저 올려주세요.');return;}
+      if(typeof Tesseract==='undefined'){setStatusText('OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.');return;}
+      ocrBtn.disabled=true;setStatusText('TIME 영역을 읽는 중...');
+      try{
+        const img=new Image();img.src=URL.createObjectURL(currentFile);await img.decode();
+        const sx=img.width*.32,sy=img.height*.41,sw=img.width*.36,sh=img.height*.16;
+        const c=document.createElement('canvas'),k=3;c.width=sw*k;c.height=sh*k;
+        const ctx=c.getContext('2d');ctx.drawImage(img,sx,sy,sw,sh,0,0,c.width,c.height);
+        const d=ctx.getImageData(0,0,c.width,c.height);
+        for(let i=0;i<d.data.length;i+=4){const y=.299*d.data[i]+.587*d.data[i+1]+.114*d.data[i+2],v=y>135?255:0;d.data[i]=d.data[i+1]=d.data[i+2]=v;}
+        ctx.putImageData(d,0,0);
+        const res=await Tesseract.recognize(c,'eng',{logger:m=>{if(m.status==='recognizing text')setStatusText(`읽는 중... ${Math.round((m.progress||0)*100)}%`);}});
+        const txt=(res.data.text||'').replace(/\n/g,' ');
+        const m=txt.match(/(\d{1,2})\s*[:：;]\s*(\d{1,2})\s*[:：;]\s*(\d{1,2})/);
+        if(m){
+          const t=`${m[1].padStart(2,'0')}:${m[2].padStart(2,'0')}:${m[3].padStart(2,'0')}`;
+          await judge(t);
+        }else{
+          setStatusText(msg('ocrSubmitting'));
+          try{
+            const h=await hashFile(currentFile);
+            await uploadAndSubmit(nick,null,h);
+            setStatusText(msg('pendingOcr'));
+            if(typeof say==='function') say('✅ '+msg('pendingOcr'));
+          }catch(err){console.error(err);setStatusText(msg(classifyDbError(err)));}
+        }
+      }catch(err){
+        console.error(err);
+        try{
+          const h=await hashFile(currentFile);
+          await uploadAndSubmit(nick,null,h);
+          setStatusText(msg('pendingOcr'));
+        }catch(e){console.error(e);setStatusText(msg(classifyDbError(e)));}
+      }finally{ocrBtn.disabled=false;}
+    };
+  }
+
+  // 보따리 투입을 공용 DB 복구도에 반영
+  document.querySelectorAll('.put').forEach(btn=>{
+    btn.onclick=async function(){
+      const nick=localStorage.getItem(LAST_NICK_KEY)||'';
+      if(!nick){if(typeof say==='function')say(msg('noNick'));return;}
+      btn.disabled=true;
+      try{
+        const {data,error}=await sb.rpc('contribute_bag',{p_nickname:nick,p_bag:btn.dataset.bag});
+        if(error) throw error;
+        const row=Array.isArray(data)?data[0]:data;
+        if(row && typeof state!=='undefined'){
+          state.bags={rice:Number(row.rice||0),fruit:Number(row.fruit||0),food:Number(row.food||0)};
+          state.progress=Number(row.recovery_points||0);
+          if(typeof render==='function')render();
+        }
+        if(typeof say==='function')say('✨ '+msg('contributed'));
+      }catch(err){
+        console.error(err);
+        const raw=((err&&err.message)||'');
+        if(/Event already complete/i.test(raw)){if(typeof say==='function')say(msg('complete'));}
+        else if(/No available bag/i.test(raw)){if(typeof say==='function')say(msg('noBag'));}
+        else if(typeof say==='function')say(msg('dbFail'));
+      }finally{await syncPublicState();}
+    };
+  });
+
+  // 관리자 DB 로그인 폼(기존 chuseok 게이트는 그대로 유지)
+  const adminLogin=document.getElementById('adminLogin');
+  if(adminLogin && !document.getElementById('adminDbLogin')){
+    adminLogin.insertAdjacentHTML('afterend',`
+      <div id="adminDbLogin" class="hidden">
+        <label class="fieldlabel">Supabase 관리자 이메일</label>
+        <input class="nick" id="adminDbEmail" type="email" autocomplete="username" placeholder="관리자 이메일">
+        <label class="fieldlabel" style="margin-top:10px">Supabase 관리자 비밀번호</label>
+        <input class="nick" id="adminDbPass" type="password" autocomplete="current-password" placeholder="관리자 계정 비밀번호">
+        <button class="action" id="adminDbLoginBtn" style="margin-top:10px">DB 로그인</button>
+        <div id="adminDbStatus" style="margin-top:9px;color:#aaa6c8;font-size:12px"></div>
+      </div>`);
+  }
+
+  async function isRealAdmin(user){
+    if(!user) return false;
+    const {data,error}=await sb.from('admins').select('user_id').eq('user_id',user.id).maybeSingle();
+    return !error && !!data;
+  }
+  async function openAdminContent(){
+    document.getElementById('adminDbLogin')?.classList.add('hidden');
+    document.getElementById('adminContent')?.classList.remove('hidden');
+    await loadAdminSubmissions();
+  }
+
+  const adminOpen=document.getElementById('adminOpen');
+  if(adminOpen){
+    adminOpen.onclick=function(){
+      document.getElementById('adminDialog')?.showModal();
+      document.getElementById('adminLogin')?.classList.remove('hidden');
+      document.getElementById('adminDbLogin')?.classList.add('hidden');
+      document.getElementById('adminContent')?.classList.add('hidden');
+      const p=document.getElementById('adminPass');if(p)p.value='';
+    };
+  }
+
+  const gateBtn=document.getElementById('adminLoginBtn');
+  if(gateBtn){
+    gateBtn.onclick=async function(){
+      if((document.getElementById('adminPass')?.value||'')!=='chuseok'){
+        if(typeof say==='function')say('비밀번호가 달라요.');return;
+      }
+      document.getElementById('adminLogin')?.classList.add('hidden');
+      const {data}=await sb.auth.getSession();
+      if(data.session && await isRealAdmin(data.session.user)){
+        await openAdminContent();
+      }else{
+        document.getElementById('adminDbLogin')?.classList.remove('hidden');
+      }
+    };
+  }
+
+  const dbLoginBtn=document.getElementById('adminDbLoginBtn');
+  if(dbLoginBtn){
+    dbLoginBtn.onclick=async function(){
+      const email=(document.getElementById('adminDbEmail')?.value||'').trim();
+      const password=document.getElementById('adminDbPass')?.value||'';
+      const st=document.getElementById('adminDbStatus');
+      if(st)st.textContent='로그인 중...';
+      const {data,error}=await sb.auth.signInWithPassword({email,password});
+      if(error){if(st)st.textContent='로그인 실패: 이메일/비밀번호를 확인해주세요.';return;}
+      if(!(await isRealAdmin(data.user))){await sb.auth.signOut();if(st)st.textContent='관리자로 등록된 계정이 아닙니다.';return;}
+      if(st)st.textContent='';
+      await openAdminContent();
+    };
+  }
+
+  async function signedImage(path){
+    if(!path) return '';
+    const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,3600);
+    return error?'':(data?.signedUrl||'');
+  }
+
+  async function loadAdminSubmissions(){
+    if(adminLoadBusy || document.getElementById('adminContent')?.classList.contains('hidden')) return;
+    adminLoadBusy=true;
+    try{
+      const [subRes,eventRes]=await Promise.all([
+        sb.from('submissions').select('id,nickname,route,screenshot_url,status,submitted_at,approved_at,admin_note,record_time').order('submitted_at',{ascending:false}),
+        sb.from('event_state').select('recovery_points').eq('id',1).single()
+      ]);
+      if(subRes.error) throw subRes.error;
+      const rows=subRes.data||[];
+      const body=document.getElementById('logBody');
+      document.getElementById('aProgress').textContent=String(eventRes.data?.recovery_points||0);
+      document.getElementById('aClear').textContent=String(rows.filter(x=>x.status==='APPROVED').length);
+      document.getElementById('aOther').textContent=String(rows.filter(x=>x.status!=='APPROVED').length);
+      document.getElementById('aLogs').textContent=String(rows.length);
+      const enriched=await Promise.all(rows.map(async x=>({...x,signed:await signedImage(x.screenshot_url)})));
+      if(body){
+        body.innerHTML=enriched.map(x=>{
+          const r=ROUTES[x.route]||{};
+          const cls=x.status==='APPROVED'?'clear':x.status==='REJECTED'?'fail':'pending';
+          const label=x.status==='APPROVED'?'APPROVED':x.status==='REJECTED'?'REJECTED':'PENDING';
+          return `<tr>
+            <td>${escapeHtml(fmtDate(x.submitted_at))}</td>
+            <td><b>${escapeHtml(x.nickname)}</b></td>
+            <td>${escapeHtml(r.map||x.route)}<br><small>${escapeHtml(r.npc||'')}</small></td>
+            <td>${escapeHtml(x.record_time||'관리자 확인')}<br><small>기준 ${escapeHtml(r.target||'')}</small></td>
+            <td><span class="badge ${cls}">${label}</span>${x.status==='PENDING'?`<div class="admin-review"><button class="admin-approve" onclick="window.dbAdminApprove('${x.id}')">승인</button><button class="admin-reject" onclick="window.dbAdminReject('${x.id}')">거절</button></div>`:''}</td>
+            <td>${x.status==='APPROVED'?escapeHtml(r.bagLabel||'지급 완료'):'-'}</td>
+            <td>${x.signed?`<img class="thumb" src="${x.signed}" onclick="window.open(this.src,'_blank')">`:'-'}</td>
+          </tr>`;
+        }).join('')||'<tr><td colspan="7" style="text-align:center;color:#9693ba;padding:30px">아직 인증 로그가 없습니다.</td></tr>';
+      }
+    }catch(err){console.error(err);if(typeof say==='function')say('관리자 로그를 불러오지 못했어요.');}
+    finally{adminLoadBusy=false;}
+  }
+  window.loadAdminSubmissions=loadAdminSubmissions;
+  if(typeof renderAdmin==='function') renderAdmin=function(){ if(!document.getElementById('adminContent')?.classList.contains('hidden')) loadAdminSubmissions(); };
+
+  window.dbAdminApprove=async function(id){
+    const {error}=await sb.rpc('approve_submission',{p_submission_id:id});
+    if(error){console.error(error);if(typeof say==='function')say(error.message.includes('Reward already approved')?'이미 지급된 보상이에요.':'승인 처리에 실패했어요.');return;}
+    if(typeof say==='function')say('✅ 승인 완료 · 해당 닉네임에 보따리를 지급했어요.');
+    await Promise.all([loadAdminSubmissions(),syncPublicState()]);
+  };
+  window.dbAdminReject=async function(id){
+    const reason=prompt('거절 사유가 있으면 입력해주세요. (선택)')||'';
+    const {error}=await sb.rpc('reject_submission',{p_submission_id:id,p_reason:reason||null});
+    if(error){console.error(error);if(typeof say==='function')say('거절 처리에 실패했어요.');return;}
+    if(typeof say==='function')say('❌ 인증을 거절했습니다.');
+    await loadAdminSubmissions();
+  };
+
+  const refresh=document.getElementById('adminRefresh');if(refresh)refresh.onclick=loadAdminSubmissions;
+  const reset=document.getElementById('adminReset');if(reset)reset.style.display='none';
+  document.querySelectorAll('[data-adjust]').forEach(b=>{
+    b.onclick=async function(){
+      const delta=Number(b.dataset.adjust||0);
+      const {error}=await sb.rpc('admin_adjust_progress',{p_delta:delta});
+      if(error){console.error(error);if(typeof say==='function')say('복구도 조정 실패');return;}
+      await Promise.all([loadAdminSubmissions(),syncPublicState()]);
+    };
+  });
+
+  // 화면 진입/복귀 시 공용 상태 갱신
+  if(typeof show==='function'){
+    const oldShow=show;
+    show=function(id){const r=oldShow.apply(this,arguments);if(id==='#eventScreen')setTimeout(syncPublicState,0);return r;};
+  }
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncPublicState();});
+  setInterval(syncPublicState,30000);
+  syncPublicState();
+})();
+</script>

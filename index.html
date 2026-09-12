@@ -5987,7 +5987,7 @@ $("#fileInput").onchange = async e => {
   $("#preview").hidden = false;
   $("#dropText").style.display = "none";
   currentThumb = await makeThumb(currentFile);
-  $("#ocrStatus").textContent = "이미지 준비 완료. 자동 판정을 눌러주세요.";
+  $("#ocrStatus").textContent = "이미지 준비 완료. 자동 판정을 눌러주세요. 자동 인식이 안 되면 수동인식에 기록 시간을 입력해주세요.";
 };
 $("#manualToggle").onclick = () => { $("#manualBox").style.display = "flex"; $("#manualTime").focus(); };
 $("#manualJudge").onclick = () => judge($("#manualTime").value);
@@ -6043,7 +6043,7 @@ $("#ocrButton").onclick = async () => {
   if(!nick){ $("#ocrStatus").textContent = "닉네임을 입력해주세요."; return; }
   if(!currentFile){ $("#ocrStatus").textContent = "스크린샷을 먼저 올려주세요."; return; }
   if(typeof Tesseract === "undefined"){ $("#ocrStatus").textContent = "OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요."; return; }
-  $("#ocrButton").disabled = true; $("#ocrStatus").textContent = "TIME 영역을 읽는 중...";
+  $("#ocrButton").disabled = true; $("#ocrStatus").textContent = "기록을 자동으로 인식하는 중...";
   try {
     const img = new Image(); img.src = URL.createObjectURL(currentFile); await img.decode();
     const sx = img.width*.32, sy = img.height*.41, sw = img.width*.36, sh = img.height*.16;
@@ -11144,7 +11144,7 @@ body.tr-library-open{overflow:hidden!important;}
 <script id="v28-170-route-story-clear-i18n">
 (function(){
   const ROUTE_I18N = {"kr":{"tiger":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐯 호랑이 천성준이 떡을 몽땅 들고 사라졌어요! 🐯</b>\n      <p>호랑이가 잔뜩 돌아다니는 <b>〈해와 달 2〉 맵</b>에 숨어버렸지만...<br>\n      아무래도 혼자 사자처럼 생겨서 금방 들킬 것 같네요.</p>\n      <p>게다가 무거운 떡 보따리까지 들고 도망치느라<br>\n      <b>평소보다 아주 느려진 상태!</b></p>\n      <p>도망치기 전에 천성준을 찾아내<br>\n      <b>떡 보따리를 되찾아옵시다!</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:48 ]</b> 이내 골인 시 CLEAR</div>\n    </div>","clearMessages":["나. 천성준. 졌다...","보따리가 너무 무거웠다...","완벽하게 숨었다고 생각했는데...","이 천성준을 잡다니... 제법이군.","어떻게 날 찾은 거지...?","떡 몇 개 가져간 것뿐인데..."],"clearFrom":"도망치던 천성준에게서","clearRecovered":"떡 보따리를 되찾았습니다!","clearGain":"성공! 떡 보따리 +1"},"rabbit":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐰 보람토끼의 만류에도 불구하고<br>희키토끼가 과일을 몽땅 들고 달아났어요! 🐰</b>\n      <p>훌쩍이는 보람토끼를 뒤로한 채<br>\n      <b>〈 사막왕국, 오시아스로! 〉 맵</b>으로 숨어들었다는데요.</p>\n      <p>욕심껏 챙기다 보니 보따리는 이미 <b>과일로 빵빵한 상태!</b><br>\n      무거운 보따리 때문에 평소보다 느려졌지만...<br>\n      <b>그래도 토끼라 제법 재빠릅니다!</b></p>\n      <p>희키토끼를 찾아<br>\n      <b>빼앗긴 과일을 되찾아옵시다!</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:34:15 ]</b> 이내 골인 시 CLEAR</div>\n    </div>","clearMessages":["헐... 왤케 빠름","이래서 욕심이 과하면 안돼...","언제나 1등은 아니다.","아오! 수박은 넣지 말걸","안돼 내 과일 ~~~~~~~~~~~~~","딸기는 조금만 주시면 안될까요... 농사해야해서..."],"clearFrom":"도망치던 희키토끼에게서","clearRecovered":"과일 보따리를 되찾았습니다!","clearGain":"성공! 과일 보따리 +1"},"goblin":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">👹 남은 음식을 몽땅 챙겨 달아난 방재&안윤구 도깨비! 👹</b>\n      <p>보따리가 너무 많아 이대로는 잡힐 것 같았는지...</p>\n      <p><b>“네가 더 빠르니까 먼저 가!”</b></p>\n      <p>윤구도깨비가 방재도깨비에게<br>\n      <b>모든 보따리를 넘겨버렸습니다!</b></p>\n      <p>보따리를 몽땅 떠안은 방재도깨비는<br>\n      <b>〈 잊혀진 등대섬 〉 맵</b>으로 도망쳤는데요.</p>\n      <p>짐을 이렇게나 들고도 <b>역시 도깨비라 힘도 세고 빠릅니다!</b></p>\n      <p>이번엔 쉽지 않겠네요.<br>\n      <b>전력으로 쫓아가 봅시다!</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:38 ]</b> 이내 골인 시 CLEAR</div>\n    </div>","clearMessages":["어제 출발하셨으면 더 쉬우셨을텐데...","도가니 튼튼하시네","윤구님 손이 좀 크신거같네...","다리로 뛴거 맞죠"],"clearFrom":"도망치던 방재도깨비에게서","clearRecovered":"음식 보따리를 되찾았습니다!","clearGain":"성공! 음식 보따리 +1"}},"th":{"tiger":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐯 เสือ 천성준 ขนต็อกไปหมดแล้วหายตัวไป! 🐯</b>\n      <p>เขาไปซ่อนตัวใน <b>แมพ 〈해와 달 2〉</b> ที่มีเสืออยู่เต็มไปหมด...<br>\n      แต่ดูยังไงก็เหมือนมีสิงโตหลงมาอยู่ตัวเดียว น่าจะโดนจับได้ไม่นานนะ</p>\n      <p>แถมยังต้องแบกถุงต็อกหนัก ๆ หนีอีก<br>\n      <b>เลยช้ากว่าปกติมาก!</b></p>\n      <p>รีบตามหา 천성준 ก่อนจะหนีไป<br>\n      <b>แล้วเอาถุงต็อกกลับคืนมากัน!</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:48 ]</b> เข้าเส้นชัยภายในเวลานี้ = CLEAR</div>\n    </div>","clearMessages":["ฉัน 천성준 แพ้แล้ว...","ถุงมันหนักเกินไป...","นึกว่าซ่อนเนียนแล้วแท้ ๆ...","จับ 천성준 คนนี้ได้... ไม่เลวนี่","หาเจอได้ยังไงกัน...?","ก็แค่หยิบต็อกไปนิดเดียวเอง..."],"clearFrom":"จาก 천성준 ที่กำลังหนีอยู่","clearRecovered":"ชิงถุงต็อกกลับมาได้แล้ว!","clearGain":"สำเร็จ! ถุงต็อก +1"},"rabbit":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐰 ถึง 보람 กระต่ายจะห้ามแล้ว<br>แต่ 희키 กระต่ายก็ยังขนผลไม้ไปหมดแล้วหนีไป! 🐰</b>\n      <p>ทิ้ง 보람 กระต่ายที่กำลังสะอื้นไว้ข้างหลัง<br>\n      แล้วไปซ่อนตัวใน <b>แมพ 〈 사막왕국, 오시아스로! 〉</b></p>\n      <p>เพราะหยิบมาเยอะเกินไป ถุงเลย <b>แน่นไปด้วยผลไม้!</b><br>\n      ถึงจะช้าลงเพราะถุงหนัก...<br>\n      <b>แต่ยังไงก็เป็นกระต่าย เลยยังเร็วอยู่ดี!</b></p>\n      <p>ตามหา 희키 กระต่ายให้เจอ<br>\n      <b>แล้วเอาผลไม้ที่ถูกขโมยไปกลับคืนมากัน!</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:34:15 ]</b> เข้าเส้นชัยภายในเวลานี้ = CLEAR</div>\n    </div>","clearMessages":["โห... ทำไมเร็วขนาดนี้","เพราะงี้ถึงห้ามโลภเกินไป...","ไม่ได้เป็นที่ 1 ตลอดหรอกนะ","โอ๊ย! ไม่น่าใส่แตงโมมาเลย","ไม่นะ ผลไม้ของฉัน ~~~~~~~~~~~~~","ขอสตรอว์เบอร์รีไว้หน่อยไม่ได้เหรอ... ต้องเอาไปทำฟาร์มน่ะ..."],"clearFrom":"จาก 희키 กระต่ายที่กำลังหนีอยู่","clearRecovered":"ชิงถุงผลไม้กลับมาได้แล้ว!","clearGain":"สำเร็จ! ถุงผลไม้ +1"},"goblin":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">👹 โทแกบี 방재 & 안윤구 ขนอาหารที่เหลือไปหมดแล้วหนีไป! 👹</b>\n      <p>ดูเหมือนว่าถุงจะเยอะเกินไป ถ้าแบกไปแบบนี้คงโดนจับแน่...</p>\n      <p><b>“นายเร็วกว่าฉัน ไปก่อนเลย!”</b></p>\n      <p>윤구 โทแกบีเลยยก<br>\n      <b>ถุงทั้งหมดให้ 방재 โทแกบี!</b></p>\n      <p>방재 โทแกบีที่ต้องแบกถุงทั้งหมดไว้คนเดียว<br>\n      หนีเข้าไปใน <b>แมพ 〈 잊혀진 등대섬 〉</b></p>\n      <p>แบกของเยอะขนาดนี้ก็ยัง <b>สมกับเป็นโทแกบี ทั้งแรงทั้งเร็ว!</b></p>\n      <p>คราวนี้คงไม่ง่ายแล้ว<br>\n      <b>ไล่ให้สุดกำลังกันเถอะ!</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:38 ]</b> เข้าเส้นชัยภายในเวลานี้ = CLEAR</div>\n    </div>","clearMessages":["ถ้าออกมาตั้งแต่เมื่อวานคงง่ายกว่านี้นะ...","เข่าแข็งแรงดีนี่","เหมือนมือคุณ 윤구 จะใหญ่ไปหน่อยนะ...","วิ่งด้วยขาจริง ๆ ใช่ไหม"],"clearFrom":"จาก 방재 โทแกบีที่กำลังหนีอยู่","clearRecovered":"ชิงถุงอาหารกลับมาได้แล้ว!","clearGain":"สำเร็จ! ถุงอาหาร +1"}},"cn":{"tiger":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐯 老虎 천성준 把年糕全都卷走了！🐯</b>\n      <p>他躲进了老虎到处出没的 <b>〈해와 달 2〉地图</b>……<br>\n      不过怎么看都像是混进来的一只狮子，感觉很快就会被发现呢。</p>\n      <p>而且还背着沉甸甸的年糕包袱逃跑，<br>\n      <b>速度比平时慢了不少！</b></p>\n      <p>趁他还没跑远，赶紧找到 천성준，<br>\n      <b>把年糕包袱抢回来吧！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:48 ]</b> 内到达终点即可 CLEAR</div>\n    </div>","clearMessages":["我，천성준，输了……","包袱实在太重了……","我还以为藏得天衣无缝……","竟然能抓到我 천성준……有两下子。","你到底是怎么找到我的……？","我不就拿了几块年糕嘛……"],"clearFrom":"从逃跑的 천성준 手中","clearRecovered":"夺回了年糕包袱！","clearGain":"成功！年糕包袱 +1"},"rabbit":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐰 보람兔子明明已经劝过了，<br>희키兔子还是把水果全都卷走了！🐰</b>\n      <p>把抽抽搭搭的 보람兔子丢在身后，<br>\n      躲进了 <b>〈 사막왕국, 오시아스로! 〉地图</b>。</p>\n      <p>因为太贪心，包袱已经 <b>被水果塞得满满当当！</b><br>\n      虽然沉重的包袱让他比平时慢了些……<br>\n      <b>但毕竟是兔子，还是相当敏捷！</b></p>\n      <p>找到 희키兔子，<br>\n      <b>把被抢走的水果拿回来吧！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:34:15 ]</b> 内到达终点即可 CLEAR</div>\n    </div>","clearMessages":["不是……怎么这么快","所以说人不能太贪心……","也不是每次都能拿第一。","啊！早知道就不装西瓜了","不——我的水果 ~~~~~~~~~~~~~","草莓能不能留一点给我……我还要种田呢……"],"clearFrom":"从逃跑的 희키兔子手中","clearRecovered":"夺回了水果包袱！","clearGain":"成功！水果包袱 +1"},"goblin":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">👹 방재&안윤구 鬼怪把剩下的食物全都卷走了！👹</b>\n      <p>大概是包袱太多，觉得再这样下去迟早会被抓住……</p>\n      <p><b>“你比较快，你先走！”</b></p>\n      <p>윤구鬼怪把<br>\n      <b>所有包袱都塞给了 방재鬼怪！</b></p>\n      <p>独自背下所有包袱的 방재鬼怪<br>\n      逃进了 <b>〈 잊혀진 등대섬 〉地图</b>。</p>\n      <p>都带着这么多东西了，<b>不愧是鬼怪，力气大还跑得快！</b></p>\n      <p>这次可没那么容易了。<br>\n      <b>全力追上去吧！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:38 ]</b> 内到达终点即可 CLEAR</div>\n    </div>","clearMessages":["要是昨天就出发的话，会更轻松一点呢……","膝盖挺结实啊","感觉 윤구 的手是不是有点太大了……","你真的是用腿跑的吧"],"clearFrom":"从逃跑的 방재鬼怪手中","clearRecovered":"夺回了食物包袱！","clearGain":"成功！食物包袱 +1"}},"tw":{"tiger":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐯 老虎 천성준 把年糕全都扛走了！🐯</b>\n      <p>他躲進了老虎到處出沒的 <b>〈해와 달 2〉地圖</b>……<br>\n      不過怎麼看都像混進來的一隻獅子，感覺很快就會被發現呢。</p>\n      <p>而且還背著沉甸甸的年糕包袱逃跑，<br>\n      <b>速度比平常慢了不少！</b></p>\n      <p>趁他還沒跑遠，趕快找到 천성준，<br>\n      <b>把年糕包袱搶回來吧！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:48 ]</b> 內抵達終點即可 CLEAR</div>\n    </div>","clearMessages":["我，천성준，輸了……","包袱真的太重了……","我還以為藏得天衣無縫……","居然能抓到我 천성준……有兩下子。","你到底是怎麼找到我的……？","我不過就拿了幾塊年糕而已……"],"clearFrom":"從逃跑的 천성준 手中","clearRecovered":"奪回了年糕包袱！","clearGain":"成功！年糕包袱 +1"},"rabbit":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐰 보람兔子明明都勸過了，<br>희키兔子還是把水果全都帶走了！🐰</b>\n      <p>把哭哭啼啼的 보람兔子丟在身後，<br>\n      躲進了 <b>〈 사막왕국, 오시아스로! 〉地圖</b>。</p>\n      <p>因為太貪心，包袱已經 <b>被水果塞得滿滿的！</b><br>\n      雖然沉重的包袱讓他比平常慢了些……<br>\n      <b>但畢竟是兔子，還是相當靈活！</b></p>\n      <p>找到 희키兔子，<br>\n      <b>把被搶走的水果拿回來吧！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:34:15 ]</b> 內抵達終點即可 CLEAR</div>\n    </div>","clearMessages":["蛤……怎麼這麼快","所以說人真的不能太貪心……","也不是每次都能拿第一。","齁！早知道就不要放西瓜了","不要～～我的水果 ~~~~~~~~~~~~~","草莓可以留一點給我嗎……我還要種田……"],"clearFrom":"從逃跑的 희키兔子手中","clearRecovered":"奪回了水果包袱！","clearGain":"成功！水果包袱 +1"},"goblin":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">👹 방재&안윤구 鬼怪把剩下的食物全都帶走了！👹</b>\n      <p>大概是包袱太多，覺得再這樣下去遲早會被抓到……</p>\n      <p><b>「你比較快，你先走！」</b></p>\n      <p>윤구鬼怪把<br>\n      <b>所有包袱都塞給了 방재鬼怪！</b></p>\n      <p>一個人扛下所有包袱的 방재鬼怪<br>\n      逃進了 <b>〈 잊혀진 등대섬 〉地圖</b>。</p>\n      <p>都帶著這麼多東西了，<b>不愧是鬼怪，力氣大又跑得快！</b></p>\n      <p>這次可沒那麼容易了。<br>\n      <b>全力追上去吧！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:38 ]</b> 內抵達終點即可 CLEAR</div>\n    </div>","clearMessages":["如果昨天就出發的話，應該會更輕鬆一點……","膝蓋很硬朗嘛","感覺 윤구 的手是不是有點太大了……","你真的是用腿跑的對吧"],"clearFrom":"從逃跑的 방재鬼怪手中","clearRecovered":"奪回了食物包袱！","clearGain":"成功！食物包袱 +1"}},"hk":{"tiger":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐯 老虎 천성준 拎晒啲年糕走咗！🐯</b>\n      <p>佢匿咗去周圍都係老虎嘅 <b>〈해와 달 2〉地圖</b>……<br>\n      不過點睇都好似得佢一隻似獅子咁，應該好快就會俾人發現啦。</p>\n      <p>仲要拎住咁重嘅年糕包袱走，<br>\n      <b>比平時慢咗好多！</b></p>\n      <p>趁佢未走甩之前搵到 천성준，<br>\n      <b>拎返個年糕包袱啦！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:48 ]</b> 內衝線即 CLEAR</div>\n    </div>","clearMessages":["我，천성준，輸咗……","個包袱真係太重……","我仲以為自己匿得天衣無縫……","竟然捉到我 천성준……有兩下喎。","你究竟點搵到我㗎……？","我都係拎咗幾嚿年糕啫……"],"clearFrom":"由逃走緊嘅 천성준 手上","clearRecovered":"搶返年糕包袱喇！","clearGain":"成功！年糕包袱 +1"},"rabbit":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">🐰 보람兔仔明明已經阻止佢，<br>희키兔仔都仲係拎晒啲水果走咗！🐰</b>\n      <p>掉低喊緊嘅 보람兔仔，<br>\n      匿咗去 <b>〈 사막왕국, 오시아스로! 〉地圖</b>。</p>\n      <p>因為貪心拎得太多，個包袱已經 <b>塞滿晒水果！</b><br>\n      雖然因為太重而比平時慢咗……<br>\n      <b>但始終係兔仔，仲係幾快！</b></p>\n      <p>搵到 희키兔仔，<br>\n      <b>拎返畀佢搶走嘅水果啦！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:34:15 ]</b> 內衝線即 CLEAR</div>\n    </div>","clearMessages":["吓……點解咁快㗎","所以話真係唔可以太貪心……","唔係次次都拎第一㗎。","頂！早知唔擺西瓜入去","唔好呀～我啲水果 ~~~~~~~~~~~~~","士多啤梨可唔可以留返少少畀我……我要耕田㗎……"],"clearFrom":"由逃走緊嘅 희키兔仔手上","clearRecovered":"搶返水果包袱喇！","clearGain":"成功！水果包袱 +1"},"goblin":{"story":"<div class=\"route-story\">\n      <b class=\"story-title\">👹 방재&안윤구 鬼怪拎晒剩低嘅食物走咗！👹</b>\n      <p>可能係包袱太多，覺得咁樣落去實會俾人捉到……</p>\n      <p><b>「你快啲，你行先啦！」</b></p>\n      <p>윤구鬼怪將<br>\n      <b>所有包袱都塞咗畀 방재鬼怪！</b></p>\n      <p>孭晒所有包袱嘅 방재鬼怪<br>\n      逃咗去 <b>〈 잊혀진 등대섬 〉地圖</b>。</p>\n      <p>拎住咁多嘢都仲係咁，<b>果然係鬼怪，又大力又快！</b></p>\n      <p>今次應該冇咁易喇。<br>\n      <b>出盡全力追佢啦！</b></p>\n      <div class=\"story-divider\" aria-hidden=\"true\"></div>\n      <div class=\"clear-rule\"><b>[ 01:17:38 ]</b> 內衝線即 CLEAR</div>\n    </div>","clearMessages":["如果你噚日就出發，應該會易啲……","對膝頭幾硬淨喎","윤구 你隻手好似有啲大喎……","你真係用對腳跑㗎係咪？"],"clearFrom":"由逃走緊嘅 방재鬼怪手上","clearRecovered":"搶返食物包袱喇！","clearGain":"成功！食物包袱 +1"}}};
-  const VERIFY_I18N = {"kr":{"ready":"닉네임과 스크린샷을 입력해주세요.","imageReady":"이미지 준비 완료. 자동 판정을 눌러주세요.","nick":"닉네임을 입력해주세요.","shot":"스크린샷을 먼저 올려주세요.","format":"⚠️ 기록 형식을 읽지 못했어요.","used":"⚠️ 이미 사용한 스크린샷입니다.","fail":"기준 기록을 이기지 못했어요.","claimed":"⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.","ocrMissing":"OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.","reading":"TIME 영역을 읽는 중..."},"th":{"ready":"กรอกชื่อในเกมและอัปโหลดภาพหน้าจอ","imageReady":"เตรียมภาพเรียบร้อยแล้ว กดตรวจสอบอัตโนมัติได้เลย","nick":"กรุณากรอกชื่อในเกม","shot":"กรุณาอัปโหลดภาพหน้าจอก่อน","format":"⚠️ ไม่สามารถอ่านรูปแบบเวลาได้","used":"⚠️ ภาพหน้าจอนี้ถูกใช้ไปแล้ว","fail":"ยังทำเวลาไม่ดีกว่าเกณฑ์","claimed":"⚠️ ชื่อนี้รับรางวัลจาก NPC ตัวนี้ไปแล้ว","ocrMissing":"โหลดโมดูล OCR ไม่สำเร็จ กรุณาใช้การตรวจแบบกรอกเวลาเอง","reading":"กำลังอ่านบริเวณ TIME..."},"cn":{"ready":"请输入游戏昵称并上传截图。","imageReady":"图片已准备好，请点击自动判定。","nick":"请输入游戏昵称。","shot":"请先上传截图。","format":"⚠️ 无法识别记录格式。","used":"⚠️ 这张截图已经使用过了。","fail":"未能跑进目标时间。","claimed":"⚠️ 这个昵称已经领取过该 NPC 的奖励。","ocrMissing":"OCR 模块加载失败，请使用手动识别。","reading":"正在读取 TIME 区域……"},"tw":{"ready":"請輸入遊戲暱稱並上傳截圖。","imageReady":"圖片已準備好，請按自動判定。","nick":"請輸入遊戲暱稱。","shot":"請先上傳截圖。","format":"⚠️ 無法辨識紀錄格式。","used":"⚠️ 這張截圖已經使用過了。","fail":"未能跑進目標時間。","claimed":"⚠️ 這個暱稱已經領取過該 NPC 的獎勵。","ocrMissing":"OCR 模組載入失敗，請使用手動辨識。","reading":"正在讀取 TIME 區域……"},"hk":{"ready":"請輸入遊戲暱稱同上載截圖。","imageReady":"圖片準備好喇，請撳自動判定。","nick":"請輸入遊戲暱稱。","shot":"請先上載截圖。","format":"⚠️ 讀唔到紀錄格式。","used":"⚠️ 呢張截圖已經用過喇。","fail":"未能快過目標時間。","claimed":"⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。","ocrMissing":"OCR 模組載入唔到，請用手動辨識。","reading":"讀取緊 TIME 區域……"}};
+  const VERIFY_I18N = {"kr":{"ready":"닉네임과 스크린샷을 입력해주세요.","imageReady":"이미지 준비 완료. 자동 판정을 눌러주세요. 자동 인식이 안 되면 수동인식에 기록 시간을 입력해주세요.","nick":"닉네임을 입력해주세요.","shot":"스크린샷을 먼저 올려주세요.","format":"⚠️ 기록 형식을 읽지 못했어요.","used":"⚠️ 이미 사용한 스크린샷입니다.","fail":"기준 기록을 이기지 못했어요.","claimed":"⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.","ocrMissing":"OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.","reading":"기록을 자동으로 인식하는 중..."},"th":{"ready":"กรอกชื่อในเกมและอัปโหลดภาพหน้าจอ","imageReady":"เตรียมภาพเรียบร้อยแล้ว กดตรวจสอบอัตโนมัติได้เลย หากอ่านอัตโนมัติไม่ได้ ให้ใช้การอ่านแบบกรอกเองและใส่เวลาสถิติ","nick":"กรุณากรอกชื่อในเกม","shot":"กรุณาอัปโหลดภาพหน้าจอก่อน","format":"⚠️ ไม่สามารถอ่านรูปแบบเวลาได้","used":"⚠️ ภาพหน้าจอนี้ถูกใช้ไปแล้ว","fail":"ยังทำเวลาไม่ดีกว่าเกณฑ์","claimed":"⚠️ ชื่อนี้รับรางวัลจาก NPC ตัวนี้ไปแล้ว","ocrMissing":"โหลดโมดูล OCR ไม่สำเร็จ กรุณาใช้การตรวจแบบกรอกเวลาเอง","reading":"กำลังอ่านสถิติอัตโนมัติ..."},"cn":{"ready":"请输入游戏昵称并上传截图。","imageReady":"图片已准备好，请点击自动判定。若无法自动识别，请使用手动识别输入记录时间。","nick":"请输入游戏昵称。","shot":"请先上传截图。","format":"⚠️ 无法识别记录格式。","used":"⚠️ 这张截图已经使用过了。","fail":"未能跑进目标时间。","claimed":"⚠️ 这个昵称已经领取过该 NPC 的奖励。","ocrMissing":"OCR 模块加载失败，请使用手动识别。","reading":"正在自动识别记录……"},"tw":{"ready":"請輸入遊戲暱稱並上傳截圖。","imageReady":"圖片已準備好，請按自動判定。若無法自動辨識，請使用手動辨識輸入紀錄時間。","nick":"請輸入遊戲暱稱。","shot":"請先上傳截圖。","format":"⚠️ 無法辨識紀錄格式。","used":"⚠️ 這張截圖已經使用過了。","fail":"未能跑進目標時間。","claimed":"⚠️ 這個暱稱已經領取過該 NPC 的獎勵。","ocrMissing":"OCR 模組載入失敗，請使用手動辨識。","reading":"正在自動辨識紀錄……"},"hk":{"ready":"請輸入遊戲暱稱同上載截圖。","imageReady":"圖片準備好喇，請撳自動判定。如果自動辨識唔到，請用手動辨識輸入紀錄時間。","nick":"請輸入遊戲暱稱。","shot":"請先上載截圖。","format":"⚠️ 讀唔到紀錄格式。","used":"⚠️ 呢張截圖已經用過喇。","fail":"未能快過目標時間。","claimed":"⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。","ocrMissing":"OCR 模組載入唔到，請用手動辨識。","reading":"自動辨識緊紀錄……"}};
 
   function activeLang(){
     return (document.body && document.body.dataset.lang) || localStorage.getItem('chuseok-lang') || 'kr';
@@ -11193,7 +11193,7 @@ body.tr-library-open{overflow:hidden!important;}
     fileInput.addEventListener('change',function(){
       setTimeout(function(){
         const st=document.getElementById('ocrStatus');
-        if(st && st.textContent.trim()==='이미지 준비 완료. 자동 판정을 눌러주세요.') st.textContent=v().imageReady;
+        if(st && st.textContent.trim()==='이미지 준비 완료. 자동 판정을 눌러주세요. 자동 인식이 안 되면 수동인식에 기록 시간을 입력해주세요.') st.textContent=v().imageReady;
       },0);
     });
   }
@@ -11215,7 +11215,7 @@ body.tr-library-open{overflow:hidden!important;}
       else if(raw==='⚠️ 이미 사용한 스크린샷입니다.') txt=d.used;
       else if(raw==='⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.') txt=d.claimed;
       else if(raw==='OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.') txt=d.ocrMissing;
-      else if(raw==='TIME 영역을 읽는 중...') txt=d.reading;
+      else if(raw==='기록을 자동으로 인식하는 중...') txt=d.reading;
       else {
         const m=raw.match(/^❌\s*(\d{1,2}[:：;]\d{1,2}[:：;]\d{1,2})\s*—\s*기준 기록을 이기지 못했어요\.$/);
         if(m) html='❌ <b>'+m[1]+'</b> — '+d.fail;
@@ -12443,11 +12443,11 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
 <script id="v28171-verify-ui-full-i18n-script">
 (function(){
   const UI={
-    kr:{header:'NPC 기록 인증',nick:'닉네임',nickPh:'게임 닉네임을 입력해주세요',upload:'결과 스크린샷을 올려주세요',uploadSub:'TIME 영역을 자동으로 읽습니다.',auto:'자동 판정',manual:'수동인식',manualPh:'예: 01:44:25',judge:'판정',ready:'닉네임과 스크린샷을 입력해주세요.',imageReady:'이미지 준비 완료. 자동 판정을 눌러주세요.',nickReq:'닉네임을 입력해주세요.',shotReq:'스크린샷을 먼저 올려주세요.',format:'⚠️ 기록 형식을 읽지 못했어요.',used:'⚠️ 이미 사용한 스크린샷입니다.',fail:'기준 기록을 이기지 못했어요.',claimed:'⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.',ocrMissing:'OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.',reading:'TIME 영역을 읽는 중...',readingPct:'읽는 중...',ocrFail:'자동 인식 실패 😭',ocrFailSub:'실제 운영판에서는 관리자 확인 대기로 보내면 됩니다.'},
-    th:{header:'ยืนยันสถิติ NPC',nick:'ชื่อในเกม',nickPh:'กรอกชื่อในเกม',upload:'อัปโหลดภาพผลการแข่งขัน',uploadSub:'ระบบจะอ่านบริเวณ TIME โดยอัตโนมัติ',auto:'ตรวจสอบอัตโนมัติ',manual:'กรอกเวลาเอง',manualPh:'เช่น 01:44:25',judge:'ตรวจสอบ',ready:'กรอกชื่อในเกมและอัปโหลดภาพหน้าจอ',imageReady:'เตรียมภาพเรียบร้อยแล้ว กดตรวจสอบอัตโนมัติได้เลย',nickReq:'กรุณากรอกชื่อในเกม',shotReq:'กรุณาอัปโหลดภาพหน้าจอก่อน',format:'⚠️ ไม่สามารถอ่านรูปแบบเวลาได้',used:'⚠️ ภาพหน้าจอนี้ถูกใช้ไปแล้ว',fail:'ยังทำเวลาไม่ดีกว่าเกณฑ์',claimed:'⚠️ ชื่อนี้รับรางวัลจาก NPC ตัวนี้ไปแล้ว',ocrMissing:'โหลดโมดูล OCR ไม่สำเร็จ กรุณาใช้การกรอกเวลาเอง',reading:'กำลังอ่านบริเวณ TIME...',readingPct:'กำลังอ่าน...',ocrFail:'ตรวจจับอัตโนมัติไม่สำเร็จ 😭',ocrFailSub:'ในการใช้งานจริงสามารถส่งให้ผู้ดูแลตรวจสอบได้'},
-    cn:{header:'NPC 记录验证',nick:'游戏昵称',nickPh:'请输入游戏昵称',upload:'上传比赛结果截图',uploadSub:'系统会自动读取 TIME 区域。',auto:'自动判定',manual:'手动识别',manualPh:'例：01:44:25',judge:'判定',ready:'请输入游戏昵称并上传截图。',imageReady:'图片已准备好，请点击自动判定。',nickReq:'请输入游戏昵称。',shotReq:'请先上传截图。',format:'⚠️ 无法识别记录格式。',used:'⚠️ 这张截图已经使用过了。',fail:'未能跑进目标时间。',claimed:'⚠️ 这个昵称已经领取过该 NPC 的奖励。',ocrMissing:'OCR 模块加载失败，请使用手动识别。',reading:'正在读取 TIME 区域……',readingPct:'正在读取……',ocrFail:'自动识别失败 😭',ocrFailSub:'正式运行时可提交给管理员人工确认。'},
-    tw:{header:'NPC 紀錄驗證',nick:'遊戲暱稱',nickPh:'請輸入遊戲暱稱',upload:'上傳比賽結果截圖',uploadSub:'系統會自動讀取 TIME 區域。',auto:'自動判定',manual:'手動辨識',manualPh:'例：01:44:25',judge:'判定',ready:'請輸入遊戲暱稱並上傳截圖。',imageReady:'圖片已準備好，請按自動判定。',nickReq:'請輸入遊戲暱稱。',shotReq:'請先上傳截圖。',format:'⚠️ 無法辨識紀錄格式。',used:'⚠️ 這張截圖已經使用過了。',fail:'未能跑進目標時間。',claimed:'⚠️ 這個暱稱已經領取過該 NPC 的獎勵。',ocrMissing:'OCR 模組載入失敗，請使用手動辨識。',reading:'正在讀取 TIME 區域……',readingPct:'正在讀取……',ocrFail:'自動辨識失敗 😭',ocrFailSub:'正式運作時可送交管理員人工確認。'},
-    hk:{header:'NPC 紀錄認證',nick:'遊戲暱稱',nickPh:'請輸入遊戲暱稱',upload:'上載比賽結果截圖',uploadSub:'系統會自動讀取 TIME 區域。',auto:'自動判定',manual:'手動辨識',manualPh:'例：01:44:25',judge:'判定',ready:'請輸入遊戲暱稱同上載截圖。',imageReady:'圖片準備好喇，請撳自動判定。',nickReq:'請輸入遊戲暱稱。',shotReq:'請先上載截圖。',format:'⚠️ 讀唔到紀錄格式。',used:'⚠️ 呢張截圖已經用過喇。',fail:'未能快過目標時間。',claimed:'⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。',ocrMissing:'OCR 模組載入唔到，請用手動辨識。',reading:'讀取緊 TIME 區域……',readingPct:'讀取緊……',ocrFail:'自動辨識失敗 😭',ocrFailSub:'正式運作時可以交畀管理員人手確認。'}
+    kr:{header:'NPC 기록 인증',nick:'닉네임',nickPh:'게임 닉네임을 입력해주세요',upload:'결과 스크린샷을 올려주세요',uploadSub:'자동 인식이 안 될 경우 수동인식을 눌러 기록 시간을 입력해주세요.',auto:'자동 판정',manual:'수동인식',manualPh:'예: 01:44:25',judge:'판정',ready:'닉네임과 스크린샷을 입력해주세요.',imageReady:'이미지 준비 완료. 자동 판정을 눌러주세요. 자동 인식이 안 되면 수동인식에 기록 시간을 입력해주세요.',nickReq:'닉네임을 입력해주세요.',shotReq:'스크린샷을 먼저 올려주세요.',format:'⚠️ 기록 형식을 읽지 못했어요.',used:'⚠️ 이미 사용한 스크린샷입니다.',fail:'기준 기록을 이기지 못했어요.',claimed:'⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.',ocrMissing:'OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.',reading:'기록을 자동으로 인식하는 중...',readingPct:'읽는 중...',ocrFail:'자동 인식 실패 😭',ocrFailSub:'수동인식을 눌러 기록 시간을 입력해주세요.'},
+    th:{header:'ยืนยันสถิติ NPC',nick:'ชื่อในเกม',nickPh:'กรอกชื่อในเกม',upload:'อัปโหลดภาพผลการแข่งขัน',uploadSub:'หากระบบอ่านอัตโนมัติไม่ได้ กรุณากดกรอกเวลาเองและใส่เวลาสถิติ',auto:'ตรวจสอบอัตโนมัติ',manual:'กรอกเวลาเอง',manualPh:'เช่น 01:44:25',judge:'ตรวจสอบ',ready:'กรอกชื่อในเกมและอัปโหลดภาพหน้าจอ',imageReady:'เตรียมภาพเรียบร้อยแล้ว กดตรวจสอบอัตโนมัติได้เลย หากอ่านอัตโนมัติไม่ได้ ให้ใช้การอ่านแบบกรอกเองและใส่เวลาสถิติ',nickReq:'กรุณากรอกชื่อในเกม',shotReq:'กรุณาอัปโหลดภาพหน้าจอก่อน',format:'⚠️ ไม่สามารถอ่านรูปแบบเวลาได้',used:'⚠️ ภาพหน้าจอนี้ถูกใช้ไปแล้ว',fail:'ยังทำเวลาไม่ดีกว่าเกณฑ์',claimed:'⚠️ ชื่อนี้รับรางวัลจาก NPC ตัวนี้ไปแล้ว',ocrMissing:'โหลดโมดูล OCR ไม่สำเร็จ กรุณาใช้การกรอกเวลาเอง',reading:'กำลังอ่านสถิติอัตโนมัติ...',readingPct:'กำลังอ่าน...',ocrFail:'ตรวจจับอัตโนมัติไม่สำเร็จ 😭',ocrFailSub:'กรุณากดกรอกเวลาเองแล้วใส่เวลาสถิติ'},
+    cn:{header:'NPC 记录验证',nick:'游戏昵称',nickPh:'请输入游戏昵称',upload:'上传比赛结果截图',uploadSub:'若无法自动识别，请点击手动识别并输入记录时间。',auto:'自动判定',manual:'手动识别',manualPh:'例：01:44:25',judge:'判定',ready:'请输入游戏昵称并上传截图。',imageReady:'图片已准备好，请点击自动判定。若无法自动识别，请使用手动识别输入记录时间。',nickReq:'请输入游戏昵称。',shotReq:'请先上传截图。',format:'⚠️ 无法识别记录格式。',used:'⚠️ 这张截图已经使用过了。',fail:'未能跑进目标时间。',claimed:'⚠️ 这个昵称已经领取过该 NPC 的奖励。',ocrMissing:'OCR 模块加载失败，请使用手动识别。',reading:'正在自动识别记录……',readingPct:'正在读取……',ocrFail:'自动识别失败 😭',ocrFailSub:'请点击手动识别并输入记录时间。'},
+    tw:{header:'NPC 紀錄驗證',nick:'遊戲暱稱',nickPh:'請輸入遊戲暱稱',upload:'上傳比賽結果截圖',uploadSub:'若無法自動辨識，請點選手動辨識並輸入紀錄時間。',auto:'自動判定',manual:'手動辨識',manualPh:'例：01:44:25',judge:'判定',ready:'請輸入遊戲暱稱並上傳截圖。',imageReady:'圖片已準備好，請按自動判定。若無法自動辨識，請使用手動辨識輸入紀錄時間。',nickReq:'請輸入遊戲暱稱。',shotReq:'請先上傳截圖。',format:'⚠️ 無法辨識紀錄格式。',used:'⚠️ 這張截圖已經使用過了。',fail:'未能跑進目標時間。',claimed:'⚠️ 這個暱稱已經領取過該 NPC 的獎勵。',ocrMissing:'OCR 模組載入失敗，請使用手動辨識。',reading:'正在自動辨識紀錄……',readingPct:'正在讀取……',ocrFail:'自動辨識失敗 😭',ocrFailSub:'請點選手動辨識並輸入紀錄時間。'},
+    hk:{header:'NPC 紀錄認證',nick:'遊戲暱稱',nickPh:'請輸入遊戲暱稱',upload:'上載比賽結果截圖',uploadSub:'若無法自動辨識，請點選手動辨識並輸入紀錄時間。',auto:'自動判定',manual:'手動辨識',manualPh:'例：01:44:25',judge:'判定',ready:'請輸入遊戲暱稱同上載截圖。',imageReady:'圖片準備好喇，請撳自動判定。如果自動辨識唔到，請用手動辨識輸入紀錄時間。',nickReq:'請輸入遊戲暱稱。',shotReq:'請先上載截圖。',format:'⚠️ 讀唔到紀錄格式。',used:'⚠️ 呢張截圖已經用過喇。',fail:'未能快過目標時間。',claimed:'⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。',ocrMissing:'OCR 模組載入唔到，請用手動辨識。',reading:'自動辨識緊紀錄……',readingPct:'讀取緊……',ocrFail:'自動辨識失敗 😭',ocrFailSub:'請撳手動辨識再輸入紀錄時間。'}
   };
 
   function lang(){return (document.body&&document.body.dataset.lang)||localStorage.getItem('chuseok-lang')||'kr';}
@@ -12471,14 +12471,14 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
     const x=d(), raw=st.textContent.trim();
     let html=null, out=null;
     if(raw==='닉네임과 스크린샷을 입력해주세요.') out=x.ready;
-    else if(raw==='이미지 준비 완료. 자동 판정을 눌러주세요.') out=x.imageReady;
+    else if(raw==='이미지 준비 완료. 자동 판정을 눌러주세요. 자동 인식이 안 되면 수동인식에 기록 시간을 입력해주세요.') out=x.imageReady;
     else if(raw==='닉네임을 입력해주세요.') out=x.nickReq;
     else if(raw==='스크린샷을 먼저 올려주세요.') out=x.shotReq;
     else if(raw==='⚠️ 기록 형식을 읽지 못했어요.') out=x.format;
     else if(raw==='⚠️ 이미 사용한 스크린샷입니다.') out=x.used;
     else if(raw==='⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.') out=x.claimed;
     else if(raw==='OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.') out=x.ocrMissing;
-    else if(raw==='TIME 영역을 읽는 중...') out=x.reading;
+    else if(raw==='기록을 자동으로 인식하는 중...') out=x.reading;
     else if(/^읽는 중\.\.\.\s*\d+%$/.test(raw)) out=raw.replace('읽는 중...',x.readingPct);
     else if(raw.indexOf('자동 인식 실패 😭')===0) html=x.ocrFail+'<br>'+x.ocrFailSub;
     else {
@@ -12532,11 +12532,11 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
   let adminLoadBusy = false;
 
   const DBMSG = {
-    kr:{submitting:'인증 이미지를 서버에 제출하는 중...',ocrSubmitting:'자동 인식 실패 — 관리자 확인 대기로 제출하는 중...',pending:'인증이 접수되었습니다! 관리자 승인 후 보따리가 지급됩니다.', pendingOcr:'자동 인식에 실패했지만 인증 이미지는 관리자 확인 대기로 접수되었습니다.', used:'⚠️ 이미 제출된 스크린샷입니다.', already:'⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.', pendingAlready:'⚠️ 이 닉네임은 해당 NPC 인증이 이미 승인 대기 중입니다.', dbFail:'서버 연결 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', noNick:'먼저 인증창에서 닉네임을 입력해주세요.', noBag:'투입할 보따리가 없습니다.', contributed:'잔칫상 복구도에 반영되었습니다!', complete:'잔칫상이 이미 모두 복구되었습니다.'},
-    th:{submitting:'กำลังส่งภาพยืนยันไปยังเซิร์ฟเวอร์...',ocrSubmitting:'ตรวจจับอัตโนมัติไม่สำเร็จ — กำลังส่งให้ผู้ดูแลตรวจสอบ...',pending:'ส่งการยืนยันเรียบร้อยแล้ว! ถุงรางวัลจะถูกมอบหลังผู้ดูแลอนุมัติ', pendingOcr:'แม้ระบบอ่านอัตโนมัติไม่สำเร็จ แต่ได้ส่งภาพให้ผู้ดูแลตรวจสอบแล้ว', used:'⚠️ ภาพหน้าจอนี้ถูกส่งไปแล้ว', already:'⚠️ ชื่อนี้ได้รับรางวัลจาก NPC ตัวนี้แล้ว', pendingAlready:'⚠️ การยืนยัน NPC นี้ของชื่อนี้กำลังรออนุมัติอยู่', dbFail:'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้ง', noNick:'กรุณากรอกชื่อในเกมในหน้าต่างยืนยันก่อน', noBag:'ไม่มีถุงให้ใส่', contributed:'เพิ่มคะแนนกู้คืนโต๊ะเลี้ยงแล้ว!', complete:'โต๊ะเลี้ยงถูกกู้คืนครบแล้ว'},
-    cn:{submitting:'正在向服务器提交认证图片……',ocrSubmitting:'自动识别失败——正在提交等待管理员确认……',pending:'验证已提交！管理员批准后将发放包袱。', pendingOcr:'自动识别失败，但认证图片已提交等待管理员确认。', used:'⚠️ 这张截图已经提交过了。', already:'⚠️ 这个昵称已经领取过该 NPC 的奖励。', pendingAlready:'⚠️ 该昵称的这个 NPC 验证正在等待管理员批准。', dbFail:'连接服务器时发生错误，请稍后重试。', noNick:'请先在验证窗口输入游戏昵称。', noBag:'没有可投入的包袱。', contributed:'已计入宴席恢复进度！', complete:'宴席已经全部恢复完成。'},
-    tw:{submitting:'正在將認證圖片送至伺服器……',ocrSubmitting:'自動辨識失敗——正在送出等待管理員確認……',pending:'驗證已送出！管理員核准後會發放包袱。', pendingOcr:'自動辨識失敗，但認證圖片已送出等待管理員確認。', used:'⚠️ 這張截圖已經提交過了。', already:'⚠️ 這個暱稱已經領取過該 NPC 的獎勵。', pendingAlready:'⚠️ 這個暱稱的該 NPC 驗證正在等待管理員核准。', dbFail:'連線伺服器時發生錯誤，請稍後再試。', noNick:'請先在驗證視窗輸入遊戲暱稱。', noBag:'沒有可以投入的包袱。', contributed:'已計入宴席恢復進度！', complete:'宴席已經全部恢復完成。'},
-    hk:{submitting:'正在將認證圖片交上伺服器……',ocrSubmitting:'自動辨識失敗——而家交畀管理員確認……',pending:'認證已經交咗！管理員批核之後會派返包袱。', pendingOcr:'自動辨識失敗，不過認證圖片已經交咗畀管理員人手確認。', used:'⚠️ 呢張截圖已經提交過喇。', already:'⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。', pendingAlready:'⚠️ 呢個暱稱嘅呢個 NPC 認證而家等緊管理員批核。', dbFail:'連接伺服器嗰陣出錯，請遲啲再試。', noNick:'請先喺認證視窗輸入遊戲暱稱。', noBag:'冇包袱可以投入。', contributed:'已經計入宴席復原進度！', complete:'宴席已經完全復原喇。'}
+    kr:{submitting:'인증 이미지를 서버에 저장하는 중...',pending:'인증 완료! 보따리가 바로 지급되었습니다.', pendingOcr:'자동 인식에 실패했습니다. 수동인식을 눌러 기록 시간을 입력해주세요.', used:'⚠️ 이미 제출된 스크린샷입니다.', already:'⚠️ 이 닉네임은 이 NPC 보상을 이미 받았어요.', pendingAlready:'⚠️ 이 닉네임은 해당 NPC 인증이 이미 처리 중입니다.', dbFail:'서버 연결 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', noNick:'먼저 인증창에서 닉네임을 입력해주세요.', shot:'스크린샷을 먼저 올려주세요.', noBag:'투입할 보따리가 없습니다.', contributed:'잔칫상 복구도에 반영되었습니다!', complete:'잔칫상이 이미 모두 복구되었습니다.', reading:'기록을 자동으로 인식하는 중...', manualHelp:'자동 인식이 안 될 경우 수동인식을 눌러 기록 시간을 입력해주세요.', ocrMissing:'자동 인식 모듈을 불러오지 못했습니다. 수동인식에 기록 시간을 입력해주세요.'},
+    th:{submitting:'กำลังบันทึกภาพยืนยันไปยังเซิร์ฟเวอร์...',pending:'ยืนยันสำเร็จ! ได้รับถุงรางวัลทันทีแล้ว', pendingOcr:'ระบบอ่านอัตโนมัติไม่สำเร็จ กรุณากดการอ่านแบบกรอกเองและใส่เวลาสถิติ', used:'⚠️ ภาพหน้าจอนี้ถูกส่งไปแล้ว', already:'⚠️ ชื่อนี้ได้รับรางวัลจาก NPC ตัวนี้แล้ว', pendingAlready:'⚠️ การยืนยัน NPC นี้ของชื่อนี้กำลังดำเนินการอยู่', dbFail:'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้ง', noNick:'กรุณากรอกชื่อในเกมในหน้าต่างยืนยันก่อน', shot:'กรุณาอัปโหลดภาพหน้าจอก่อน', noBag:'ไม่มีถุงให้ใส่', contributed:'เพิ่มคะแนนกู้คืนโต๊ะเลี้ยงแล้ว!', complete:'โต๊ะเลี้ยงถูกกู้คืนครบแล้ว', reading:'กำลังอ่านสถิติอัตโนมัติ...', manualHelp:'หากระบบอ่านอัตโนมัติไม่ได้ กรุณากดการอ่านแบบกรอกเองแล้วใส่เวลาสถิติ', ocrMissing:'โหลดระบบอ่านอัตโนมัติไม่สำเร็จ กรุณาใส่เวลาสถิติด้วยการอ่านแบบกรอกเอง'},
+    cn:{submitting:'正在保存认证图片……',pending:'验证完成！包袱已立即发放。', pendingOcr:'自动识别失败。请点击手动识别并输入记录时间。', used:'⚠️ 这张截图已经提交过了。', already:'⚠️ 这个昵称已经领取过该 NPC 的奖励。', pendingAlready:'⚠️ 该昵称的这个 NPC 验证正在处理中。', dbFail:'连接服务器时发生错误，请稍后重试。', noNick:'请先在验证窗口输入游戏昵称。', shot:'请先上传截图。', noBag:'没有可投入的包袱。', contributed:'已计入宴席恢复进度！', complete:'宴席已经全部恢复完成。', reading:'正在自动识别记录...', manualHelp:'如果无法自动识别，请点击手动识别并输入记录时间。', ocrMissing:'自动识别模块加载失败，请使用手动识别输入记录时间。'},
+    tw:{submitting:'正在儲存認證圖片……',pending:'驗證完成！包袱已立即發放。', pendingOcr:'自動辨識失敗。請點選手動辨識並輸入紀錄時間。', used:'⚠️ 這張截圖已經提交過了。', already:'⚠️ 這個暱稱已經領取過該 NPC 的獎勵。', pendingAlready:'⚠️ 這個暱稱的該 NPC 驗證正在處理中。', dbFail:'連線伺服器時發生錯誤，請稍後再試。', noNick:'請先在驗證視窗輸入遊戲暱稱。', shot:'請先上傳截圖。', noBag:'沒有可以投入的包袱。', contributed:'已計入宴席恢復進度！', complete:'宴席已經全部恢復完成。', reading:'正在自動辨識紀錄...', manualHelp:'如果無法自動辨識，請點選手動辨識並輸入紀錄時間。', ocrMissing:'自動辨識模組載入失敗，請使用手動辨識輸入紀錄時間。'},
+    hk:{submitting:'正在儲存認證圖片……',pending:'認證完成！包袱已經即時派發。', pendingOcr:'自動辨識失敗。請撳手動辨識再輸入紀錄時間。', used:'⚠️ 呢張截圖已經提交過喇。', already:'⚠️ 呢個暱稱已經攞過呢個 NPC 嘅獎勵。', pendingAlready:'⚠️ 呢個暱稱嘅呢個 NPC 認證處理緊。', dbFail:'連接伺服器嗰陣出錯，請遲啲再試。', noNick:'請先喺認證視窗輸入遊戲暱稱。', shot:'請先上載截圖。', noBag:'冇包袱可以投入。', contributed:'已經計入宴席復原進度！', complete:'宴席已經完全復原喇。', reading:'自動辨識緊紀錄...', manualHelp:'如果自動辨識唔到，請撳手動辨識再輸入紀錄時間。', ocrMissing:'自動辨識模組載入唔到，請用手動辨識輸入紀錄時間。'}
   };
 
   function currentLang(){
@@ -12633,7 +12633,7 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
     return 'dbFail';
   }
 
-  // 기존 CLEAR 즉시 지급 로직 대신 DB 승인 대기로 제출
+  // CLEAR 인증 성공 즉시 DB에 기록하고 보따리를 지급
   if(typeof judge==='function'){
     judge = async function(timeText){
       const nick=(document.getElementById('nickname')?.value||'').trim();
@@ -12650,9 +12650,20 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
         setStatusText(msg('submitting'));
         const h=await hashFile(currentFile);
         await uploadAndSubmit(nick,timeText,h);
-        setStatusHtml('✅ '+escapeHtml(msg('pending')));
-        if(typeof say==='function') say('✅ '+msg('pending'));
         await syncPublicState();
+        if(Array.isArray(r.clearMessages) && r.clearMessages.length){
+          const line=r.clearMessages[Math.floor(Math.random()*r.clearMessages.length)];
+          setStatusHtml(`<div class="clear-message">
+            <span class="clear-quote">“${escapeHtml(line)}”</span>
+            <div class="clear-divider"></div>
+            <div class="clear-reward">${r.clearFrom}<br><b>${r.clearRecovered}</b></div>
+            <div class="clear-gain">${r.clearGain}</div>
+          </div>`);
+          if(typeof say==='function') say('🎉 '+r.clearGain);
+        }else{
+          setStatusHtml(`✨ <b>CLEAR!</b> ${escapeHtml(timeText)}<br>${escapeHtml(r.bagLabel)} ×1`);
+          if(typeof say==='function') say('🎉 '+msg('pending'));
+        }
       }catch(err){
         console.error(err);
         setStatusText(msg(classifyDbError(err)));
@@ -12662,15 +12673,18 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
     };
   }
 
-  // OCR 실패도 실제 관리자 확인 대기로 전송
+  // OCR 실패 시 자동 제출하지 않고 수동인식 입력을 안내
   const ocrBtn=document.getElementById('ocrButton');
   if(ocrBtn){
     ocrBtn.onclick=async function(){
       const nick=(document.getElementById('nickname')?.value||'').trim();
-      if(!nick){setStatusText('닉네임을 입력해주세요.');return;}
-      if(!currentFile){setStatusText('스크린샷을 먼저 올려주세요.');return;}
-      if(typeof Tesseract==='undefined'){setStatusText('OCR 모듈을 불러오지 못했습니다. 수동인식을 사용해주세요.');return;}
-      ocrBtn.disabled=true;setStatusText('TIME 영역을 읽는 중...');
+      if(!nick){setStatusText(msg('noNick'));return;}
+      if(!currentFile){setStatusText(msg('shot'));return;}
+      if(typeof Tesseract==='undefined'){
+        const manual=document.getElementById('manualBox'); if(manual) manual.style.display='flex';
+        setStatusText(msg('ocrMissing')); return;
+      }
+      ocrBtn.disabled=true;setStatusText(msg('reading'));
       try{
         const img=new Image();img.src=URL.createObjectURL(currentFile);await img.decode();
         const sx=img.width*.32,sy=img.height*.41,sw=img.width*.36,sh=img.height*.16;
@@ -12679,28 +12693,21 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
         const d=ctx.getImageData(0,0,c.width,c.height);
         for(let i=0;i<d.data.length;i+=4){const y=.299*d.data[i]+.587*d.data[i+1]+.114*d.data[i+2],v=y>135?255:0;d.data[i]=d.data[i+1]=d.data[i+2]=v;}
         ctx.putImageData(d,0,0);
-        const res=await Tesseract.recognize(c,'eng',{logger:m=>{if(m.status==='recognizing text')setStatusText(`읽는 중... ${Math.round((m.progress||0)*100)}%`);}});
+        const res=await Tesseract.recognize(c,'eng',{logger:m=>{if(m.status==='recognizing text')setStatusText(`${msg('reading')} ${Math.round((m.progress||0)*100)}%`);}});
         const txt=(res.data.text||'').replace(/\n/g,' ');
         const m=txt.match(/(\d{1,2})\s*[:：;]\s*(\d{1,2})\s*[:：;]\s*(\d{1,2})/);
         if(m){
           const t=`${m[1].padStart(2,'0')}:${m[2].padStart(2,'0')}:${m[3].padStart(2,'0')}`;
           await judge(t);
         }else{
-          setStatusText(msg('ocrSubmitting'));
-          try{
-            const h=await hashFile(currentFile);
-            await uploadAndSubmit(nick,null,h);
-            setStatusText(msg('pendingOcr'));
-            if(typeof say==='function') say('✅ '+msg('pendingOcr'));
-          }catch(err){console.error(err);setStatusText(msg(classifyDbError(err)));}
+          const manual=document.getElementById('manualBox'); if(manual) manual.style.display='flex';
+          const mt=document.getElementById('manualTime'); if(mt) mt.focus();
+          setStatusText(msg('manualHelp'));
         }
       }catch(err){
         console.error(err);
-        try{
-          const h=await hashFile(currentFile);
-          await uploadAndSubmit(nick,null,h);
-          setStatusText(msg('pendingOcr'));
-        }catch(e){console.error(e);setStatusText(msg(classifyDbError(e)));}
+        const manual=document.getElementById('manualBox'); if(manual) manual.style.display='flex';
+        setStatusText(msg('manualHelp'));
       }finally{ocrBtn.disabled=false;}
     };
   }
@@ -12845,7 +12852,7 @@ body[data-lang="hk"] #comicScreen .comic-event-title .b::after{content:" - 序�
   window.dbAdminApprove=async function(id){
     const {error}=await sb.rpc('approve_submission',{p_submission_id:id});
     if(error){console.error(error);if(typeof say==='function')say(error.message.includes('Reward already approved')?'이미 지급된 보상이에요.':'승인 처리에 실패했어요.');return;}
-    if(typeof say==='function')say('✅ 승인 완료 · 해당 닉네임에 보따리를 지급했어요.');
+    if(typeof say==='function')say('✅ 예외 인증 승인 완료 · 해당 닉네임에 보따리를 지급했어요.');
     await Promise.all([loadAdminSubmissions(),syncPublicState()]);
   };
   window.dbAdminReject=async function(id){

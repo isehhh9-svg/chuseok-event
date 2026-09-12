@@ -11229,6 +11229,30 @@ body.tr-library-open{overflow:hidden!important;}
   }
 })();
 </script>
+
+<!-- v28.180: force-remove legacy floating ADMIN corner button -->
+<style id="v28-180-force-hide-floating-admin">
+#adminCornerBtn{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+</style>
+<script id="v28-180-force-remove-floating-admin">
+(function(){
+  function removeFloatingAdmin(){
+    const el = document.getElementById('adminCornerBtn');
+    if(el) el.remove();
+  }
+  removeFloatingAdmin();
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', removeFloatingAdmin, {once:true});
+  }
+  window.addEventListener('load', removeFloatingAdmin, {once:true});
+})();
+</script>
+
 </body>
 </html>
 
